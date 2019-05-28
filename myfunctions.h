@@ -17,6 +17,7 @@ namespace mf {
 	QByteArray md5(const QByteArray &string);
 	bool startDetached(const QString &cmd, const QStringList &args);
 	bool checkFile(const char *fileName);
+	bool strFind(const QString &inStr, const QString &dataStr);
 }
 
 #endif // MYFUNCTIONS_H

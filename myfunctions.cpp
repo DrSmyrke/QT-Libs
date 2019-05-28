@@ -80,4 +80,30 @@ namespace mf {
 		return true;
 	}
 	
+	bool strFind(const QString &inStr, const QString &dataStr)
+	{
+		bool ret = false;
+
+		if( dataStr.isEmpty() || inStr.isEmpty() ) return ret;
+		if( inStr.left(1) == "*" && inStr.right(1) == "*" ){
+			QString findStr = inStr;
+			findStr.remove( 0, 1 );
+			findStr.remove( findStr.length() - 1, 1 );
+			if( dataStr.contains( findStr, Qt::CaseInsensitive ) ) ret = true;
+		}
+		if( inStr.left(1) == "*" && inStr.right(1) != "*" ){
+			QString findStr = inStr;
+			findStr.remove( 0, 1 );
+			if( dataStr.right( findStr.length() ) == findStr ) ret = true;
+		}
+		if( inStr.left(1) != "*" && inStr.right(1) == "*" ){
+			QString findStr = inStr;
+			findStr.remove( findStr.length() - 1, 1 );
+			if( dataStr.indexOf( findStr, Qt::CaseInsensitive ) == 0 ) ret = true;
+		}
+		if( inStr.left(1) != "*" && inStr.right(1) != "*" ){ if( dataStr == inStr ) ret = true; }
+
+		return ret;
+	}
+	
 }
