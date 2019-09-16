@@ -75,6 +75,8 @@ namespace http{
 			QByteArray rawData;
 			bool valid = false;
 		}body;
+		bool valid = false;
+		bool next = false;
 	};
 
 	pkt parsPkt(const QByteArray &data);
