@@ -56,6 +56,7 @@ namespace http{
 				}
 				if(param.contains("content-length",Qt::CaseInsensitive)) packet.head.contLen = miniBuff.toUInt();
 				if(param.contains("content-type",Qt::CaseInsensitive)) packet.head.contType = miniBuff;
+				if(param.contains("content-encoding",Qt::CaseInsensitive)) packet.head.contEncoding = miniBuff;
 				if(param.contains("user-agent",Qt::CaseInsensitive)) packet.head.userAgent = miniBuff;
 				if(param.contains("host",Qt::CaseInsensitive)) packet.head.host = miniBuff;
 				if(param.contains("connection",Qt::CaseInsensitive)) packet.head.connection = miniBuff;
@@ -100,6 +101,7 @@ namespace http{
 		if( !pkt.head.acceptLanguage.isEmpty() ) ba.append( "Accept-Language: " + pkt.head.acceptLanguage + "\r\n" );
 		if( !pkt.head.cacheControl.isEmpty() ) ba.append( "Cache-Control: " + pkt.head.cacheControl + "\r\n" );
 		if( !pkt.head.contType.isEmpty() ) ba.append( "Content-Type: " + pkt.head.contType + "\r\n" );
+		if( !pkt.head.location.isEmpty() ) ba.append( "Location: " + pkt.head.location + "\r\n" );
 
 		ba.append( "Content-Length: " + QString::number(pkt.head.contLen) + "\r\n" );
 		ba.append( "Connection: " + pkt.head.connection + "\r\n" );
@@ -108,6 +110,61 @@ namespace http{
 		ba.append( "\r\n" );
 
 		return ba;
+	}
+
+	AuthData parsAuthString(const QByteArray &data)
+	{
+		AuthData authData;
+		QByteArray miniBuff;
+		QString param;
+		bool kavF = false;
+
+		for(uint32_t i = 0; i < (unsigned)data.size(); i++){
+			if( data[i] == '\r' || data[i] == '\n' ) continue;
+
+			if( authData.method == http::AuthMethod::Unknown && data[i] == ' ' ){
+				param = miniBuff;
+				if(param.contains("Basic",Qt::CaseInsensitive)) authData.method = http::AuthMethod::Basic;
+				if(param.contains("Digest",Qt::CaseInsensitive)) authData.method = http::AuthMethod::Digest;
+				if(param.contains("NTLM",Qt::CaseInsensitive)) authData.method = http::AuthMethod::NTLM;
+				authData.methodString = param;
+				miniBuff.clear();
+				param.clear();
+				continue;
+			}
+
+			if( param.isEmpty() && data[i] == '=' ){
+				param = miniBuff;
+				param.replace(" ","");
+				miniBuff.clear();
+				continue;
+			}
+
+			if( data[i] == '"' && miniBuff.size() == 0 ){
+				kavF = true;
+				continue;
+			}
+			if( (data[i] == '"' && miniBuff.size() > 0 && kavF) || data[i] == ',' ){
+				if(param.contains("realm",Qt::CaseInsensitive))			authData.realm = miniBuff;
+				if(param.indexOf("nonce",0,Qt::CaseInsensitive) == 0)		authData.nonce = miniBuff;
+				if(param.contains("uri",Qt::CaseInsensitive))			authData.uri = miniBuff;
+				if(param.indexOf("nc",0,Qt::CaseInsensitive) == 0)		authData.nc = miniBuff;
+				if(param.indexOf("cnonce",0,Qt::CaseInsensitive) == 0)	authData.cnonce = miniBuff;
+				if(param.contains("response",Qt::CaseInsensitive))		authData.response = miniBuff;
+				if(param.contains("opaque",Qt::CaseInsensitive))		authData.opaque = miniBuff;
+				if(param.contains("username",Qt::CaseInsensitive))		authData.username = miniBuff;
+				if(param.contains("qop",Qt::CaseInsensitive))			authData.qop = miniBuff;
+				param.clear();
+				miniBuff.clear();
+				continue;
+			}
+
+			miniBuff.append( data.at(i) );
+		}
+
+		if( authData.method == http::AuthMethod::Basic && miniBuff.size() > 0 ) authData.BasicString = miniBuff;
+
+		return authData;
 	}
 
 };

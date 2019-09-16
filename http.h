@@ -2,22 +2,41 @@
 #define HTTP_H
 
 #include <QString>
+#include <QList>
 
 namespace http{
 	struct AuthMethod{
 		enum{
+			Unknown,
 			Basic,
 			Digest,
 			NTLM,
 		};
 	};
+
 	struct Proto{
 		enum{
-			UNKNOW,
+			UNKNOWN,
 			HTTP,
 			HTTPS,
 		};
 	};
+
+	struct AuthData{
+		uint8_t method =  http::AuthMethod::Unknown;
+		QString methodString;
+		QString username;
+		QString realm;
+		QString nonce;
+		QString uri;
+		QString nc;
+		QString cnonce;
+		QString response;
+		QString opaque;
+		QByteArray BasicString;
+		QString qop;
+	};
+
 	struct pkt{
 		struct {
 			struct {
@@ -35,6 +54,8 @@ namespace http{
 			QString connection = "close";
 			QString host;
 			QString contType;
+			QString location;
+			QString contEncoding;
 			int32_t contLen = 0;
 			QString cacheControl;
 			QString cookie;
@@ -58,6 +79,7 @@ namespace http{
 
 	pkt parsPkt(const QByteArray &data);
 	QByteArray buildPkt(http::pkt &pkt);
+	AuthData parsAuthString(const QByteArray &data);
 };
 
 #endif // HTTP_H
