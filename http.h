@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QList>
+#include <QMap>
 
 namespace http{
 	struct AuthMethod{
@@ -82,6 +83,7 @@ namespace http{
 	pkt parsPkt(const QByteArray &data);
 	QByteArray buildPkt(http::pkt &pkt);
 	AuthData parsAuthString(const QByteArray &data);
+	void parsArguments(const QString &string, QMap< QByteArray, QByteArray > &args);
 };
 
 #endif // HTTP_H

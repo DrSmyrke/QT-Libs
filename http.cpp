@@ -170,4 +170,49 @@ namespace http{
 		return authData;
 	}
 
+	void parsArguments(const QString &string, QMap<QByteArray, QByteArray> &args)
+	{
+		QByteArray method;
+		QByteArray tempBuff;
+		QByteArray param;
+		bool value = false;
+
+		for( uint16_t i = 0; i < string.length(); i++ ){
+			if( i == 0 && string[i] == '/' ) continue;
+			if( i > 0 ){
+				if( string[i] == '?' || string[i] == '=' || string[i] == '&' ){
+					if( tempBuff.size() == 0 ) break;
+				}
+			}
+			if( i > 0 && string[i] == '?' && method.size() == 0 && !value ){
+				method.append( tempBuff );
+				tempBuff.clear();
+				continue;
+			}
+
+			if( i > 0 && string[i] == '=' && !value ){
+				param.append( tempBuff );
+				tempBuff.clear();
+				continue;
+			}
+
+			if( i > 0 && string[i] == '"' && param.size() > 0 ){
+				value = !value;
+				continue;
+			}
+
+			if( i > 0 && string[i] == '&' && !value ){
+				if( param.size() == 0 ) break;
+				args[param] = tempBuff;
+				tempBuff.clear();
+				param.clear();
+				continue;
+			}
+
+			tempBuff.append( string[i] );
+		}
+
+		if( param.size() > 0 && tempBuff.size() > 0 ) args[param].push_back( tempBuff );
+	}
+
 };
