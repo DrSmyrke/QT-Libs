@@ -106,4 +106,14 @@ namespace mf {
 		return ret;
 	}
 	
+	QByteArray toLittleEndianShort(const short val)
+	{
+		QByteArray bytes(2, 0x00);
+		QDataStream stream(&bytes, QIODevice::WriteOnly);
+		stream.setByteOrder(QDataStream::LittleEndian);
+		stream << val;
+		bytes.resize(2);
+		return bytes;
+	}
+	
 }
