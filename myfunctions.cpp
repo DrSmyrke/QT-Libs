@@ -67,7 +67,7 @@ namespace mf {
 	{
 		QString str = cmd + " " + args.join(" ");
 		auto res = QProcess::startDetached( cmd, args );
-		mf::setLog(1,QString("[EXEC %1]: %2").arg( (res)?"true":"false" ).arg(str));
+		app::setLog(1,QString("[EXEC %1]: %2").arg( (res)?"true":"false" ).arg(str));
 		return res;
 	}
 	
