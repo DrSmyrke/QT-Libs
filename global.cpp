@@ -35,11 +35,13 @@ namespace mf {
 				if(QString(argv[i]) == "--help" or QString(argv[1]) == "-h"){
 					printf("Usage: %s [OPTIONS]\n"
 							"  -l <FILE>    log file\n"
+							"  -c <FILE>    config file\n"
 							"  -v    Verbose output\n"
 							"\n", argv[0]);
 					ret = false;
 				}
 				if(QString(argv[i]) == "-l") app::conf.logFile = QString(argv[++i]);
+				if(QString(argv[i]) == "-c") app::conf.confFile = QString(argv[++i]);
 				if(QString(argv[i]) == "-v") app::conf.verbose = true;
 			//}else{
 			//	bool ok = false;
