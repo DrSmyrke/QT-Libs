@@ -9,7 +9,7 @@ namespace http{
 
 		for(uint32_t i = 0; i < (unsigned)data.size(); i++){
 			if( !packet.head.valid && data[i] == '\r') continue;
-			if( packet.head.firstLine && !packet.head.isResponse && !packet.head.isRequest && data[i] == ' ' ){
+			if( packet.head.firstLine && !packet.isResponse && !packet.isRequest && data[i] == ' ' ){
 				if( miniBuff.contains('/') ){
 					packet.head.response.proto = miniBuff;
 					packet.isResponse = true;
@@ -20,23 +20,23 @@ namespace http{
 				miniBuff.clear();
 				continue;
 			}
-			if( packet.head.firstLine && packet.head.isRequest && packet.head.request.target.isEmpty() && data[i] == ' ' ){
+			if( packet.head.firstLine && packet.isRequest && packet.head.request.target.isEmpty() && data[i] == ' ' ){
 				packet.head.request.target = miniBuff;
 				miniBuff.clear();
 				continue;
 			}
-			if( packet.head.firstLine && packet.head.isResponse && packet.head.response.code == 0 && data[i] == ' ' ){
+			if( packet.head.firstLine && packet.isResponse && packet.head.response.code == 0 && data[i] == ' ' ){
 				packet.head.response.code = miniBuff.toUInt( nullptr, 10 );
 				miniBuff.clear();
 				continue;
 			}
-			if( packet.head.firstLine && packet.head.isRequest && !packet.head.request.target.isEmpty() && data[i] == '\n' ){
+			if( packet.head.firstLine && packet.isRequest && !packet.head.request.target.isEmpty() && data[i] == '\n' ){
 				packet.head.request.proto = miniBuff;
 				packet.head.firstLine = false;
 				miniBuff.clear();
 				continue;
 			}
-			if( packet.head.firstLine && packet.head.isResponse && packet.head.response.code != 0 && data[i] == '\n' ){
+			if( packet.head.firstLine && packet.isResponse && packet.head.response.code != 0 && data[i] == '\n' ){
 				packet.head.response.comment = miniBuff;
 				packet.head.firstLine = false;
 				miniBuff.clear();
