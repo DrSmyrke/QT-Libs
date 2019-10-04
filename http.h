@@ -73,7 +73,7 @@ namespace http{
 		struct {
 			QByteArray rawData;
 			bool valid = false;
-		}body;.
+		}body;
 		bool isResponse = false;
 		bool isRequest = false;
 		bool valid = false;
