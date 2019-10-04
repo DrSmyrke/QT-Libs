@@ -67,15 +67,15 @@ namespace http{
 			QString proxyAuthorization;
 			bool valid = false;
 			bool flag = true;
-			bool isResponse = false;
-			bool isRequest = false;
 			bool firstLine = true;
 			uint32_t length;
 		}head;
 		struct {
 			QByteArray rawData;
 			bool valid = false;
-		}body;
+		}body;.
+		bool isResponse = false;
+		bool isRequest = false;
 		bool valid = false;
 		bool next = false;
 	};

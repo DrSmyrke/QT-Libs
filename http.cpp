@@ -12,10 +12,10 @@ namespace http{
 			if( packet.head.firstLine && !packet.head.isResponse && !packet.head.isRequest && data[i] == ' ' ){
 				if( miniBuff.contains('/') ){
 					packet.head.response.proto = miniBuff;
-					packet.head.isResponse = true;
+					packet.isResponse = true;
 				}else{
 					packet.head.request.method = miniBuff;
-					packet.head.isRequest = true;
+					packet.isRequest = true;
 				}
 				miniBuff.clear();
 				continue;
