@@ -60,6 +60,7 @@ namespace http{
 			int32_t contLen = 0;
 			QString cacheControl;
 			QString cookie;
+			QString reffer;
 			QString accept;
 			QString acceptEncoding;
 			QString acceptLanguage;
