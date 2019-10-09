@@ -4,7 +4,7 @@
 
 namespace mf {
 	void removeDir(const QString &path);
-	QString getSize(const long val);
+	QString getSize(const uint32_t val);
 	QByteArray toBigEndianInt(const int val);
 	QByteArray toBigEndianShort(const short val);
 	unsigned int getRand(const int max);
