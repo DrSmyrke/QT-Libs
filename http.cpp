@@ -191,10 +191,12 @@ namespace http{
 				continue;
 			}
 
-			if( i > 0 && string[i] == '=' && !value ){
-				param.append( tempBuff );
-				tempBuff.clear();
-				continue;
+			if( i > 0 ){
+				if( ( string[i] == '=' && !value ) || ( string[i] == '&' && !value ) ){
+					param.append( tempBuff );
+					tempBuff.clear();
+					continue;
+				}
 			}
 
 			if( i > 0 && string[i] == '"' && param.size() > 0 ){
