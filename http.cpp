@@ -173,50 +173,46 @@ namespace http{
 
 	void parsArguments(const QString &string, QMap<QByteArray, QByteArray> &args)
 	{
-		QByteArray method;
-		QByteArray tempBuff;
+		QByteArray buff;
 		QByteArray param;
-		bool value = false;
+		bool kavichki = false;
+		bool start = false;
 
 		for( uint16_t i = 0; i < string.length(); i++ ){
-			if( i == 0 && string[i] == '/' ) continue;
-			if( i > 0 ){
-				if( string[i] == '?' || string[i] == '=' || string[i] == '&' ){
-					if( tempBuff.size() == 0 ) break;
-				}
-			}
-			if( i > 0 && string[i] == '?' && method.size() == 0 && !value ){
-				method.append( tempBuff );
-				tempBuff.clear();
+			if( !start && string[i] == '?' ){
+				start = true;
 				continue;
 			}
+			if( !start ) continue;
 
-			if( i > 0 && string[i] == '=' && !value ){
-				param.append( tempBuff );
-				tempBuff.clear();
+			if( string[i] == '"' && param.size() > 0 ) kavichki = !kavichki;
+			if( string[i] == '=' && !kavichki ){
+				param.append( buff );
+				buff.clear();
 				continue;
 			}
-
-			if( i > 0 && string[i] == '"' && param.size() > 0 ){
-				value = !value;
-				continue;
-			}
-
-			if( i > 0 && string[i] == '&' && !value ){
+			if( string[i] == '&' && !kavichki ){
 				if( param.size() == 0 ){
-					param.append( tempBuff );
-					tempBuff.clear();
+					param.append( buff );
+					buff.clear();
 				}
-				args[param] = tempBuff;
-				tempBuff.clear();
+				args[param].push_back( buff );
 				param.clear();
+				buff.clear();
 				continue;
 			}
 
-			tempBuff.append( string[i] );
+			buff.append( string[i] );
 		}
 
-		if( param.size() > 0 && tempBuff.size() > 0 ) args[param].push_back( tempBuff );
+		if( buff.size() > 0 ){
+			if( param.size() == 0 ){
+				param.append( buff );
+				buff.clear();
+			}
+			args[param].push_back( buff );
+			buff.clear();
+		}
 	}
 
 };
