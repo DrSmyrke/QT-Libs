@@ -76,7 +76,7 @@ namespace http{
 		}
 		packet.body.rawData.append( miniBuff );
 
-		if( packet.body.rawData.size() > packet.head.contLen ) packet.body.valid = true;
+		if( packet.body.rawData.size() >= packet.head.contLen ) packet.body.valid = true;
 		if( packet.body.rawData.size() < packet.head.contLen ) packet.next = true;
 
 		if( packet.head.valid && packet.body.valid ) packet.valid = true;
