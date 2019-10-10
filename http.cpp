@@ -191,12 +191,10 @@ namespace http{
 				continue;
 			}
 
-			if( i > 0 ){
-				if( ( string[i] == '=' && !value ) || ( string[i] == '&' && !value ) ){
-					param.append( tempBuff );
-					tempBuff.clear();
-					continue;
-				}
+			if( i > 0 && string[i] == '=' && !value ){
+				param.append( tempBuff );
+				tempBuff.clear();
+				continue;
 			}
 
 			if( i > 0 && string[i] == '"' && param.size() > 0 ){
@@ -205,7 +203,10 @@ namespace http{
 			}
 
 			if( i > 0 && string[i] == '&' && !value ){
-				if( param.size() == 0 ) break;
+				if( param.size() == 0 ){
+					param.append( tempBuff );
+					tempBuff.clear();
+				}
 				args[param] = tempBuff;
 				tempBuff.clear();
 				param.clear();
