@@ -77,6 +77,7 @@ namespace mf {
 		f = fopen(fileName,"r");
 		if(f == nullptr) return false;
 		fclose(f);
+		delete f;
 		return true;
 	}
 	
