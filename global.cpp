@@ -1,10 +1,6 @@
-#include "myfunctions.h"
 #include "global.h"
 
-#include <QDataStream>
 #include <QIODevice>
-#include <QCryptographicHash>
-#include <QProcess>
 #include <QDateTime>
 #include <QSettings>
 
