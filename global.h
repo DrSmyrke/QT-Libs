@@ -7,6 +7,7 @@ struct Config{
 	bool verbose						= false;
 	uint8_t logLevel					= 3;
 	QString logFile						= "/tmp/APPNAME.log";
+	QString appName						= "APPNAME";
 };
 
 namespace app {

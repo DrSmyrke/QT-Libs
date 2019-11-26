@@ -6,13 +6,14 @@
 #include <QCryptographicHash>
 #include <QProcess>
 #include <QDateTime>
+#include <QSettings>
 
-namespace mf {
+namespace app {
 	Config conf;
 	
 	void loadSettings()
 	{
-		QSettings settings("MySoft","APPNAME");
+		QSettings settings( "MySoft", app::conf.appName );
 
 		//app::conf.maxThreads = settings.value("SERVER/maxThreads",app::conf.maxThreads).toUInt();
 		//app::conf.port = settings.value("SERVER/port",app::conf.port).toUInt();
@@ -20,7 +21,7 @@ namespace mf {
 
 	void saveSettings()
 	{
-		QSettings settings("MySoft","APPNAME");
+		QSettings settings( "MySoft", app::conf.appName );
 		settings.clear();
 
 		//settings.setValue("SERVER/maxThreads",app::conf.maxThreads);
