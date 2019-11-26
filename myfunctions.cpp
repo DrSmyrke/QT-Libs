@@ -6,6 +6,7 @@
 #include <QCryptographicHash>
 #include <QProcess>
 #include <QDateTime>
+#include <QFileInfo>
 
 namespace mf {
 
@@ -79,6 +80,11 @@ namespace mf {
 		fclose(f);
 		delete f;
 		return true;
+	}
+	
+	bool checkFile(const QString &path)
+	{
+		return QFileInfo::exists(path) && QFileInfo(path).isFile();
 	}
 	
 	bool strFind(const QString &inStr, const QString &dataStr)

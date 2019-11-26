@@ -17,6 +17,7 @@ namespace mf {
 	QByteArray md5(const QByteArray &string);
 	bool startDetached(const QString &cmd, const QStringList &args);
 	bool checkFile(const char *fileName);
+	bool checkFile(const QString &path);
 	bool strFind(const QString &inStr, const QString &dataStr);
 	QByteArray toLittleEndianShort(const short val);
 }
