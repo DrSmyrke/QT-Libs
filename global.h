@@ -2,6 +2,7 @@
 #define GLOBAL_H
 
 #include <QString>
+#include <QDir>
 
 struct Config{
 	bool verbose						= false;
