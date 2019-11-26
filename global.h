@@ -6,7 +6,11 @@
 struct Config{
 	bool verbose						= false;
 	uint8_t logLevel					= 3;
+#ifdef __linux__
 	QString logFile						= "/tmp/APPNAME.log";
+#elif _WIN32
+	QString logFile						= QDir::homePath() + "/APPNAME.log";
+#endif
 	QString appName						= "APPNAME";
 };
 
