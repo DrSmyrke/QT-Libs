@@ -3,6 +3,12 @@
 
 #include <QString>
 #include <QDir>
+#include <QHostAddress>
+
+struct Host{
+	QHostAddress ip;
+	uint16_t port						= 0;
+};
 
 struct Config{
 	bool verbose						= false;
@@ -13,6 +19,7 @@ struct Config{
 	QString logFile						= QDir::homePath() + "/APPNAME.log";
 #endif
 	QString appName						= "APPNAME";
+	QString version						= "0.1";
 };
 
 namespace app {
