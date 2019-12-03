@@ -24,17 +24,22 @@ namespace myproto {
 			return pkt;
 		}
 
-		pkt.chanelNum = data[4];
+		pkt.channel = data[4];
 
-		pkt.destination = data[5]<<12;
-		pkt.destination += data[6]<<8;
-		pkt.destination += data[7]<<4;
-		pkt.destination += data[8];
+		pkt.source = data[5]<<12;
+		pkt.source += data[6]<<8;
+		pkt.source += data[7]<<4;
+		pkt.source += data[8];
+		
+		pkt.destination = data[9]<<12;
+		pkt.destination += data[10]<<8;
+		pkt.destination += data[11]<<4;
+		pkt.destination += data[12];
 
-		pkt.dataLength = data[9]<<12;
-		pkt.dataLength += data[10]<<8;
-		pkt.dataLength += data[11]<<4;
-		pkt.dataLength += data[12];
+		pkt.dataLength = data[13]<<12;
+		pkt.dataLength += data[14]<<8;
+		pkt.dataLength += data[15]<<4;
+		pkt.dataLength += data[16];
 
 		uint32_t totalSize = pkt.dataLength + pkt.headerSize + sizeof(pkt.crc);
 
