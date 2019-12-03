@@ -5,18 +5,6 @@
 #include <list>
 
 enum{
-	socket_type_client,
-	socket_type_server,
-};
-
-enum{
-	app_type_noname,
-	app_type_server,
-	app_type_appcenter,
-	app_type_mystats,
-};
-
-enum{
 	param_type_empty,
 	param_type_helo,
 	param_type_name,
@@ -70,26 +58,7 @@ struct Pkt{
 	bool retry = false;
 };
 
-struct DefaultConfig
-{
-	uint16_t port		= 7300;
-};
-
-struct AppData
-{
-	uint8_t type = app_type_noname;
-	std::list<PktData> params;
-	uint32_t ip;
-	QByteArray id;
-	bool confirm = false;
-	bool connected = false;
-};
-
-const uint32_t preamble = 0xDEADBEEF;
-
 namespace myproto {
-	extern DefaultConfig conf;
-	extern AppData appData;
 
 	Pkt parsPkt( QByteArray &data );
 	QByteArray buidPkt( const Pkt &pkt );

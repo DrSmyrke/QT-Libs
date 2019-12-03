@@ -1,9 +1,8 @@
 #include "myproto.h"
-#include "../myfunctions.h"
+#include "myfunctions.h"
 
 namespace myproto {
-	DefaultConfig conf;
-	AppData appData;
+	const uint32_t preamble = 0xDEADBEEF;
 
 	Pkt parsPkt(QByteArray &data)
 	{
@@ -19,7 +18,7 @@ namespace myproto {
 		pkt.preamble += data[2]<<4;
 		pkt.preamble += data[3];
 
-		if( pkt.preamble != preamble ){
+		if( pkt.preamble != myproto::preamble ){
 			data.remove( 0, 1 );
 			pkt.retry = true;
 			return pkt;
