@@ -68,8 +68,8 @@ namespace myproto {
 	{
 		QByteArray ba;
 
-		ba.append( mf::toBigEndianInt( preamble ) );
-		ba.append( pkt.chanelNum );
+		ba.append( mf::toBigEndianInt( myproto::preamble ) );
+		ba.append( pkt.channel );
 		ba.append( mf::toBigEndianInt( pkt.destination ) );
 		ba.append( mf::toBigEndianInt( pkt.rawData.size() ) );
 		ba.append( pkt.rawData );
@@ -78,7 +78,7 @@ namespace myproto {
 		return ba;
 	}
 
-	void parsParams(Pkt &pkt)
+	void parsData(Pkt &pkt)
 	{
 		while( pkt.rawData.size() >= 4 ){
 			PktData pktData;
@@ -98,30 +98,29 @@ namespace myproto {
 		}
 	}
 
-	void setParam(QByteArray &data, const uint16_t param, const QByteArray &value)
+	void addData(QByteArray &data, const uint16_t param, const QByteArray &value)
 	{
 		data.append( mf::toBigEndianShort( param ) );
 		data.append( mf::toBigEndianShort( value.size() ) );
 		data.append( value );
 	}
 
-	uint16_t getCRC(const QByteArray &data)
+	uint32_t getCRC(const QByteArray &data)
 	{
 		uint16_t crc = 0;
 		for( auto sym:data ) crc += sym;
 		return crc;
 	}
 
-	Pkt getPkt( const uint8_t chanelNum, const uint8_t type )
+	Pkt getPkt(const uint8_t type)
 	{
 		Pkt pkt;
 
-		pkt.chanelNum = chanelNum;
-		pkt.destination = 0;
-
 		switch (type) {
-			case pkt_type_helo:		setParam( pkt.rawData, param_type_helo, "Hello" );		break;
-			case pkt_type_bye:		setParam( pkt.rawData, param_type_bye );				break;
+			case myproto::PktType::hello:
+				pkt.channel = myproto::Channel::comunication;
+				addData( pkt.rawData, myproto::DataType::text, "Hello" );
+			break;
 		}
 
 		return pkt;
