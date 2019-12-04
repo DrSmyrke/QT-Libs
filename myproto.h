@@ -37,6 +37,8 @@ namespace myproto {
 		enum{
 			empty,
 			text,
+			version,
+			buffSize,
 			name,
 		};
 	};
