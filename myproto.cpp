@@ -71,6 +71,8 @@ namespace myproto {
 
 		ba.append( mf::toBigEndianInt( myproto::preamble ) );
 		ba.append( pkt.head.channel );
+		ba.append( pkt.head.type );
+		ba.append( mf::toBigEndianInt( pkt.head.source ) );
 		ba.append( mf::toBigEndianInt( pkt.head.destination ) );
 		ba.append( mf::toBigEndianInt( pkt.rawData.size() ) );
 		ba.append( pkt.rawData );
