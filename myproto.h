@@ -25,6 +25,7 @@ namespace myproto {
 		enum{
 			comunication				= 1,
 			auth,
+			error,
 		};
 	};
 	struct PktType{
