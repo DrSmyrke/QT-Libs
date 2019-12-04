@@ -71,7 +71,7 @@ namespace myproto {
 	QByteArray buidPkt( const Pkt &pkt );
 	void parsData( Pkt &pkt );
 	void addData( QByteArray &data, const uint16_t param, const QByteArray &value = QByteArray() );
-	uint32_t getCRC( const QByteArray &data );
+	uint16_t getCRC( const QByteArray &data );
 }
 
 #endif // MYPROTO_H

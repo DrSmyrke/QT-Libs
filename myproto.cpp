@@ -14,9 +14,9 @@ namespace myproto {
 			return pkt;
 		}
 
-		pkt.head.preamble = data[0]<<12;
-		pkt.head.preamble += data[1]<<8;
-		pkt.head.preamble += data[2]<<4;
+		pkt.head.preamble = data[0]<<24;
+		pkt.head.preamble += data[1]<<16;
+		pkt.head.preamble += data[2]<<8;
 		pkt.head.preamble += data[3];
 
 		if( pkt.head.preamble != myproto::preamble ){
@@ -28,19 +28,19 @@ namespace myproto {
 		pkt.head.channel = data[4];
 		pkt.head.type = data[5];
 
-		pkt.head.source = data[6]<<12;
-		pkt.head.source += data[7]<<8;
-		pkt.head.source += data[8]<<4;
+		pkt.head.source = data[6]<<24;
+		pkt.head.source += data[7]<<16;
+		pkt.head.source += data[8]<<8;
 		pkt.head.source += data[9];
 		
-		pkt.head.destination = data[10]<<12;
-		pkt.head.destination += data[11]<<8;
-		pkt.head.destination += data[12]<<4;
+		pkt.head.destination = data[10]<<24;
+		pkt.head.destination += data[11]<<16;
+		pkt.head.destination += data[12]<<8;
 		pkt.head.destination += data[13];
 
-		pkt.head.dataLength = data[14]<<12;
-		pkt.head.dataLength += data[15]<<8;
-		pkt.head.dataLength += data[16]<<4;
+		pkt.head.dataLength = data[14]<<24;
+		pkt.head.dataLength += data[15]<<16;
+		pkt.head.dataLength += data[16]<<8;
 		pkt.head.dataLength += data[17];
 
 		uint32_t totalSize = pkt.head.dataLength + pkt.headerSize + sizeof(pkt.crc);
@@ -52,7 +52,7 @@ namespace myproto {
 
 		pkt.rawData.append( data.mid( pkt.headerSize, pkt.head.dataLength ) );
 
-		pkt.crc += data[pkt.head.dataLength + pkt.headerSize]<<4;
+		pkt.crc += data[pkt.head.dataLength + pkt.headerSize]<<8;
 		pkt.crc += data[pkt.head.dataLength + pkt.headerSize + 1];
 
 		if( pkt.crc != myproto::getCRC( data.left( pkt.head.dataLength + pkt.headerSize ) ) ){
@@ -107,7 +107,7 @@ namespace myproto {
 		data.append( value );
 	}
 
-	uint32_t getCRC(const QByteArray &data)
+	uint16_t getCRC(const QByteArray &data)
 	{
 		uint16_t crc = 0;
 		for( auto sym:data ) crc += sym;
