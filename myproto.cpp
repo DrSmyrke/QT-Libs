@@ -14,10 +14,10 @@ namespace myproto {
 			return pkt;
 		}
 
-		pkt.head.preamble = data[0]<<24;
-		pkt.head.preamble += data[1]<<16;
-		pkt.head.preamble += data[2]<<8;
-		pkt.head.preamble += data[3];
+		pkt.head.preamble = static_cast<uint8_t>( data[0] )<<24;
+		pkt.head.preamble += static_cast<uint8_t>( data[1] )<<16;
+		pkt.head.preamble += static_cast<uint8_t>( data[2] )<<8;
+		pkt.head.preamble += static_cast<uint8_t>( data[3] );
 
 		if( pkt.head.preamble != myproto::preamble ){
 			data.remove( 0, 1 );
@@ -25,23 +25,23 @@ namespace myproto {
 			return pkt;
 		}
 
-		pkt.head.channel = data[4];
-		pkt.head.type = data[5];
+		pkt.head.channel = static_cast<uint8_t>( data[4] );
+		pkt.head.type = static_cast<uint8_t>( data[5] );
 
-		pkt.head.source = data[6]<<24;
-		pkt.head.source += data[7]<<16;
-		pkt.head.source += data[8]<<8;
-		pkt.head.source += data[9];
+		pkt.head.source = static_cast<uint8_t>( data[6] )<<24;
+		pkt.head.source += static_cast<uint8_t>( data[7] )<<16;
+		pkt.head.source += static_cast<uint8_t>( data[8] )<<8;
+		pkt.head.source += static_cast<uint8_t>( data[9] );
 		
-		pkt.head.destination = data[10]<<24;
-		pkt.head.destination += data[11]<<16;
-		pkt.head.destination += data[12]<<8;
-		pkt.head.destination += data[13];
+		pkt.head.destination = static_cast<uint8_t>( data[10] )<<24;
+		pkt.head.destination += static_cast<uint8_t>( data[11] )<<16;
+		pkt.head.destination += static_cast<uint8_t>( data[12] )<<8;
+		pkt.head.destination += static_cast<uint8_t>( data[13] );
 
-		pkt.head.dataLength = data[14]<<24;
-		pkt.head.dataLength += data[15]<<16;
-		pkt.head.dataLength += data[16]<<8;
-		pkt.head.dataLength += data[17];
+		pkt.head.dataLength = static_cast<uint8_t>( data[14] )<<24;
+		pkt.head.dataLength += static_cast<uint8_t>( data[15] )<<16;
+		pkt.head.dataLength += static_cast<uint8_t>( data[16] )<<8;
+		pkt.head.dataLength += static_cast<uint8_t>( data[17] );
 
 		uint32_t totalSize = pkt.head.dataLength + pkt.headerSize + sizeof(pkt.crc);
 
@@ -52,8 +52,8 @@ namespace myproto {
 
 		pkt.rawData.append( data.mid( pkt.headerSize, pkt.head.dataLength ) );
 
-		pkt.crc += data[pkt.head.dataLength + pkt.headerSize]<<8;
-		pkt.crc += data[pkt.head.dataLength + pkt.headerSize + 1];
+		pkt.crc += static_cast<uint8_t>( data[pkt.head.dataLength + pkt.headerSize] )<<8;
+		pkt.crc += static_cast<uint8_t>( data[pkt.head.dataLength + pkt.headerSize + 1] );
 
 		if( pkt.crc != myproto::getCRC( data.left( pkt.head.dataLength + pkt.headerSize ) ) ){
 			data.remove( 0, totalSize );
