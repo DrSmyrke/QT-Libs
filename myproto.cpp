@@ -7,53 +7,55 @@ namespace myproto {
 	Pkt parsPkt(QByteArray &data)
 	{
 		Pkt pkt;
+		pkt.headerSize = sizeof( myproto::Pkt::Head );
 
 		if( data.size() < pkt.headerSize ){
 			pkt.next = true;
 			return pkt;
 		}
 
-		pkt.preamble = data[0]<<12;
-		pkt.preamble += data[1]<<8;
-		pkt.preamble += data[2]<<4;
-		pkt.preamble += data[3];
+		pkt.head.preamble = data[0]<<12;
+		pkt.head.preamble += data[1]<<8;
+		pkt.head.preamble += data[2]<<4;
+		pkt.head.preamble += data[3];
 
-		if( pkt.preamble != myproto::preamble ){
+		if( pkt.head.preamble != myproto::preamble ){
 			data.remove( 0, 1 );
 			pkt.retry = true;
 			return pkt;
 		}
 
-		pkt.channel = data[4];
+		pkt.head.channel = data[4];
+		pkt.head.type = data[5];
 
-		pkt.source = data[5]<<12;
-		pkt.source += data[6]<<8;
-		pkt.source += data[7]<<4;
-		pkt.source += data[8];
+		pkt.head.source = data[6]<<12;
+		pkt.head.source += data[7]<<8;
+		pkt.head.source += data[8]<<4;
+		pkt.head.source += data[9];
 		
-		pkt.destination = data[9]<<12;
-		pkt.destination += data[10]<<8;
-		pkt.destination += data[11]<<4;
-		pkt.destination += data[12];
+		pkt.head.destination = data[10]<<12;
+		pkt.head.destination += data[11]<<8;
+		pkt.head.destination += data[12]<<4;
+		pkt.head.destination += data[13];
 
-		pkt.dataLength = data[13]<<12;
-		pkt.dataLength += data[14]<<8;
-		pkt.dataLength += data[15]<<4;
-		pkt.dataLength += data[16];
+		pkt.head.dataLength = data[14]<<12;
+		pkt.head.dataLength += data[15]<<8;
+		pkt.head.dataLength += data[16]<<4;
+		pkt.head.dataLength += data[17];
 
-		uint32_t totalSize = pkt.dataLength + pkt.headerSize + sizeof(pkt.crc);
+		uint32_t totalSize = pkt.head.dataLength + pkt.headerSize + sizeof(pkt.crc);
 
 		if( data.size() < totalSize ){
 			pkt.next = true;
 			return pkt;
 		}
 
-		pkt.rawData.append( data.mid( pkt.headerSize, pkt.dataLength ) );
+		pkt.rawData.append( data.mid( pkt.headerSize, pkt.head.dataLength ) );
 
-		pkt.crc += data[pkt.dataLength + pkt.headerSize]<<4;
-		pkt.crc += data[pkt.dataLength + pkt.headerSize + 1];
+		pkt.crc += data[pkt.head.dataLength + pkt.headerSize]<<4;
+		pkt.crc += data[pkt.head.dataLength + pkt.headerSize + 1];
 
-		if( pkt.crc != myproto::getCRC( data.left( pkt.dataLength + pkt.headerSize ) ) ){
+		if( pkt.crc != myproto::getCRC( data.left( pkt.head.dataLength + pkt.headerSize ) ) ){
 			data.remove( 0, totalSize );
 			pkt.error = true;
 			return pkt;
@@ -69,8 +71,8 @@ namespace myproto {
 		QByteArray ba;
 
 		ba.append( mf::toBigEndianInt( myproto::preamble ) );
-		ba.append( pkt.channel );
-		ba.append( mf::toBigEndianInt( pkt.destination ) );
+		ba.append( pkt.head.channel );
+		ba.append( mf::toBigEndianInt( pkt.head.destination ) );
 		ba.append( mf::toBigEndianInt( pkt.rawData.size() ) );
 		ba.append( pkt.rawData );
 		ba.append( mf::toBigEndianShort( myproto::getCRC( ba ) ) );
@@ -110,19 +112,5 @@ namespace myproto {
 		uint16_t crc = 0;
 		for( auto sym:data ) crc += sym;
 		return crc;
-	}
-
-	Pkt getPkt(const uint8_t type)
-	{
-		Pkt pkt;
-
-		switch (type) {
-			case myproto::PktType::hello:
-				pkt.channel = myproto::Channel::comunication;
-				addData( pkt.rawData, myproto::DataType::text, "Hello" );
-			break;
-		}
-
-		return pkt;
 	}
 }

@@ -53,12 +53,14 @@ namespace myproto {
 		struct Head{
 			uint32_t preamble				= 0;
 			uint8_t channel					= 0;
+			uint8_t type					= 0;
 			uint32_t source					= 0;
 			uint32_t destination			= 0;
 			uint32_t dataLength				= 0;
 		} head;
 		QByteArray rawData;
-		uint16_t crc					= 0;
+		uint16_t crc						= 0;
+		uint8_t headerSize					= 0;
 		std::list<myproto::PktData> pktData;
 		bool next = false;
 		bool error = false;
@@ -70,7 +72,6 @@ namespace myproto {
 	void parsData( Pkt &pkt );
 	void addData( QByteArray &data, const uint16_t param, const QByteArray &value = QByteArray() );
 	uint32_t getCRC( const QByteArray &data );
-	Pkt getPkt(const uint8_t type );
 }
 
 #endif // MYPROTO_H
