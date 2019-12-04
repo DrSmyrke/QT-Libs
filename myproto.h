@@ -31,6 +31,7 @@ namespace myproto {
 	struct PktType{
 		enum{
 			hello,
+			hello2,
 			error,
 			bye,
 		};
