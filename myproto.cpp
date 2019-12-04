@@ -4,9 +4,9 @@
 namespace myproto {
 	const uint32_t preamble = 0xDEADBEEF;
 
-	Pkt parsPkt(QByteArray &data)
+	myproto::Pkt parsPkt(QByteArray &data)
 	{
-		Pkt pkt;
+		myproto::Pkt pkt;
 
 		if( data.size() < pkt.headerSize ){
 			pkt.next = true;
@@ -96,6 +96,7 @@ namespace myproto {
 				if( pkt.rawData.size() >= pktData.size ){
 					pktData.data.append( pkt.rawData.left( pktData.size ) );
 					pkt.rawData.remove( 0, pktData.size );
+					pkt.pktData.push_back( pktData );
 				}
 			}
 		}
@@ -114,4 +115,17 @@ namespace myproto {
 		for( auto sym:data ) crc += sym;
 		return crc;
 	}
+
+	QByteArray findData(const Pkt &pkt, const uint16_t dataType)
+	{
+		QByteArray ba;
+		for( auto elem:pkt.pktData ){
+			if( elem.type == dataType ){
+				ba.append( elem.data );
+				break;
+			}
+		}
+		return ba;
+	}
+
 }

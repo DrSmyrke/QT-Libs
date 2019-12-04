@@ -68,10 +68,11 @@ namespace myproto {
 	};
 
 	Pkt parsPkt( QByteArray &data );
-	QByteArray buidPkt( const Pkt &pkt );
-	void parsData( Pkt &pkt );
-	void addData( QByteArray &data, const uint16_t param, const QByteArray &value = QByteArray() );
-	uint16_t getCRC( const QByteArray &data );
+	QByteArray buidPkt(const myproto::Pkt &pkt);
+	void parsData(myproto::Pkt &pkt);
+	void addData(QByteArray &data, const uint16_t param, const QByteArray &value = QByteArray());
+	uint16_t getCRC(const QByteArray &data);
+	QByteArray findData(const myproto::Pkt &pkt, const uint16_t dataType);
 }
 
 #endif // MYPROTO_H
