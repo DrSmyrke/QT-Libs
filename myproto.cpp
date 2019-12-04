@@ -7,7 +7,6 @@ namespace myproto {
 	Pkt parsPkt(QByteArray &data)
 	{
 		Pkt pkt;
-		pkt.headerSize = sizeof( myproto::Pkt::Head );
 
 		if( data.size() < pkt.headerSize ){
 			pkt.next = true;

@@ -45,8 +45,8 @@ namespace myproto {
 		};
 	};
 	struct PktData {
-		uint16_t type					= myproto::DataType::empty;
-		uint16_t size					= 0;
+		uint16_t type						= myproto::DataType::empty;
+		uint16_t size						= 0;
 		QByteArray data;
 	};
 	struct Pkt{
@@ -60,11 +60,11 @@ namespace myproto {
 		} head;
 		QByteArray rawData;
 		uint16_t crc						= 0;
-		uint8_t headerSize					= 0;
+		uint8_t headerSize					= 18;
 		std::list<myproto::PktData> pktData;
-		bool next = false;
-		bool error = false;
-		bool retry = false;
+		bool next							= false;
+		bool error							= false;
+		bool retry							= false;
 	};
 
 	Pkt parsPkt( QByteArray &data );
