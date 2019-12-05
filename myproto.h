@@ -32,6 +32,8 @@ namespace myproto {
 		enum{
 			hello,
 			hello2,
+			request,
+			response,
 			error,
 			bye,
 		};
@@ -43,6 +45,7 @@ namespace myproto {
 			login,
 			version,
 			buffSize,
+			boolean,
 			name,
 		};
 	};
