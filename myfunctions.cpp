@@ -123,4 +123,17 @@ namespace mf {
 		return bytes;
 	}
 	
+	void XORencode(QByteArray &data, const QByteArray &key)
+	{
+		for (int i = 0; i < data.size(); i++) {
+			data[i] = data[i] ^ key[ i % key.size() ];
+		}
+	}
+	
+	void XORdecode(QByteArray &data, const QByteArray &key)
+	{
+		for (int i = 0; i < data.size(); i++) {
+			data[i] = data[i] ^ key[ i % key.size() ];
+		}
+	}
 }

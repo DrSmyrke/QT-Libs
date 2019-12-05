@@ -20,6 +20,8 @@ namespace mf {
 	bool checkFile(const QString &path);
 	bool strFind(const QString &inStr, const QString &dataStr);
 	QByteArray toLittleEndianShort(const short val);
+	void XORencode(QByteArray &data, const QByteArray &key);
+	void XORdecode(QByteArray &data, const QByteArray &key);
 }
 
 #endif // MYFUNCTIONS_H
