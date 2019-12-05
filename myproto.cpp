@@ -65,7 +65,7 @@ namespace myproto {
 		return pkt;
 	}
 
-	QByteArray buidPkt(const Pkt &pkt)
+	QByteArray buidPkt(const Pkt &pkt, const QByteArray &key)
 	{
 		QByteArray ba;
 
@@ -75,14 +75,18 @@ namespace myproto {
 		ba.append( mf::toBigEndianInt( pkt.head.source ) );
 		ba.append( mf::toBigEndianInt( pkt.head.destination ) );
 		ba.append( mf::toBigEndianInt( pkt.rawData.size() ) );
+		if( key.size() > 0 ) mf::XOR( pkt.rawData, key );
 		ba.append( pkt.rawData );
 		ba.append( mf::toBigEndianShort( myproto::getCRC( ba ) ) );
 
 		return ba;
 	}
 
-	void parsData(Pkt &pkt)
+	void parsData(Pkt &pkt, const QByteArray &key)
 	{
+		if( pkt.rawData.size() == 0 ) return;
+		if( key.size() > 0 ) mf::XOR( pkt.rawData, key );
+
 		while( pkt.rawData.size() >= 4 ){
 			PktData pktData;
 			pktData.type = pkt.rawData[0]<<4;
