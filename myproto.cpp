@@ -65,7 +65,7 @@ namespace myproto {
 		return pkt;
 	}
 
-	QByteArray buidPkt(const Pkt &pkt, const QByteArray &key)
+	QByteArray buidPkt(myproto::Pkt &pkt, const QByteArray &key)
 	{
 		QByteArray ba;
 
