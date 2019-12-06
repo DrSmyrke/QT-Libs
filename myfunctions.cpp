@@ -61,7 +61,7 @@ namespace mf {
 
 	QByteArray md5(const QByteArray &string)
 	{
-		return QCryptographicHash::hash(string,QCryptographicHash::Md5);
+		return QCryptographicHash::hash(string,QCryptographicHash::Md5).toHex();
 	}
 
 	bool startDetached(const QString &cmd, const QStringList &args)
