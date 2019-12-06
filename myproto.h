@@ -74,7 +74,7 @@ namespace myproto {
 
 	myproto::Pkt parsPkt( QByteArray &data );
 	QByteArray buidPkt(const myproto::Pkt &pkt);
-	QByteArray buidPkt(const myproto::Pkt &pkt, const QByteArray &key);
+	QByteArray buidPkt(myproto::Pkt &pkt, const QByteArray &key);
 	void parsData(myproto::Pkt &pkt);
 	void parsData(myproto::Pkt &pkt, const QByteArray &key);
 	void addData(QByteArray &data, const uint16_t param, const QByteArray &value = QByteArray());

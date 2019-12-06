@@ -65,7 +65,7 @@ namespace myproto {
 		return pkt;
 	}
 
-	QByteArray buidPkt(myproto::Pkt &pkt)
+	QByteArray buidPkt(const myproto::Pkt &pkt)
 	{
 		QByteArray ba;
 
@@ -115,7 +115,7 @@ namespace myproto {
 		if( pkt.rawData.size() == 0 ) return;
 		if( key.size() > 0 ) mf::XOR( pkt.rawData, key );
 
-		parsData( pkt );
+		myproto::parsData( pkt );
 	}
 
 	void addData(QByteArray &data, const uint16_t param, const QByteArray &value)
