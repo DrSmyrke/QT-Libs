@@ -34,6 +34,8 @@ namespace myproto {
 			hello2,
 			request,
 			response,
+			data,
+			state,
 			error,
 			bye,
 		};
