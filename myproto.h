@@ -42,6 +42,7 @@ namespace myproto {
 		enum{
 			empty,
 			text,
+			url,
 			login,
 			version,
 			buffSize,
