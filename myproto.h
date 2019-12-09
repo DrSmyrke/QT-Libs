@@ -44,6 +44,7 @@ namespace myproto {
 			text,
 			url,
 			id,
+			data,
 			login,
 			version,
 			buffSize,
