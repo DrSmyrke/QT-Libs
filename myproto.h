@@ -43,6 +43,7 @@ namespace myproto {
 			empty,
 			text,
 			url,
+			id,
 			login,
 			version,
 			buffSize,
