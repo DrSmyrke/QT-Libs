@@ -125,6 +125,8 @@ namespace mf {
 	
 	void XOR(QByteArray &data, const QByteArray &key)
 	{
+		if( key.size() == 0 ) return;
+		
 		for (int i = 0; i < data.size(); i++) {
 			data[i] = data[i] ^ key[ i % key.size() ];
 		}
