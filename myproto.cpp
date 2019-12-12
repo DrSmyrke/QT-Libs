@@ -93,9 +93,9 @@ namespace myproto {
 		
 		while( pkt.rawData.size() >= 4 ){
 			PktData pktData;
-			pktData.type = pkt.rawData[0]<<4;
+			pktData.type = pkt.rawData[0]<<8;
 			pktData.type += pkt.rawData[1];
-			pktData.size = pkt.rawData[2]<<4;
+			pktData.size = pkt.rawData[2]<<8;
 			pktData.size += pkt.rawData[3];
 
 			pkt.rawData.remove( 0, 4 );
