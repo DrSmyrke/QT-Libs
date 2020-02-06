@@ -5,6 +5,9 @@
 namespace mf {
 	void removeDir(const QString &path);
 	QString getSize(const uint32_t val);
+#if __WORDSIZE == 64
+	QString getSize(const uint64_t val);
+#endif
 	QByteArray toBigEndianInt(const int val);
 	QByteArray toBigEndianShort(const short val);
 	unsigned int getRand(const int max);

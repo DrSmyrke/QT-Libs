@@ -34,6 +34,18 @@ namespace mf {
 		return str;
 	}
 
+#if __WORDSIZE == 64
+	QString getSize(const uint64_t val)
+	{
+		QString str;
+		if(val < 1024) str = QString::number(val) + " b";
+		if(val >= 1024 && val < 1024000) str = QString::number((float)val/1024.0).left(5) + " Kb";
+		if(val >= 1024000 && val < 1024000000) str =  QString::number((float)val/1048576.0).left(5) + " Mb";
+		if(val >= 1048576000) str =  QString::number((float)val/1073741824.0).left(5) + " Gb";
+		return str;
+	}
+#endif
+
 	QByteArray toBigEndianInt(const int val)
 	{
 		QByteArray bytes(4, 0x00);
@@ -71,7 +83,7 @@ namespace mf {
 		app::setLog(1,QString("[EXEC %1]: %2").arg( (res)?"true":"false" ).arg(str));
 		return res;
 	}
-	
+
 	bool checkFile(const char *fileName)
 	{
 		FILE *f;
@@ -81,12 +93,12 @@ namespace mf {
 		delete f;
 		return true;
 	}
-	
+
 	bool checkFile(const QString &path)
 	{
 		return QFileInfo::exists(path) && QFileInfo(path).isFile();
 	}
-	
+
 	bool strFind(const QString &inStr, const QString &dataStr)
 	{
 		bool ret = false;
@@ -112,7 +124,7 @@ namespace mf {
 
 		return ret;
 	}
-	
+
 	QByteArray toLittleEndianShort(const short val)
 	{
 		QByteArray bytes(2, 0x00);
@@ -122,11 +134,11 @@ namespace mf {
 		bytes.resize(2);
 		return bytes;
 	}
-	
+
 	void XOR(QByteArray &data, const QByteArray &key)
 	{
 		if( key.size() == 0 ) return;
-		
+
 		for (int i = 0; i < data.size(); i++) {
 			data[i] = data[i] ^ key[ i % key.size() ];
 		}
