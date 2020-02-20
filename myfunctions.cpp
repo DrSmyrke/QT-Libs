@@ -76,11 +76,11 @@ namespace mf {
 		return QCryptographicHash::hash(string,QCryptographicHash::Md5).toHex();
 	}
 
-	bool startDetached(const QString &cmd, const QStringList &args)
+	bool startDetached(const QString &cmd, const QStringList &args, const QString &workPath)
 	{
 		QString str = cmd + " " + args.join(" ");
-		auto res = QProcess::startDetached( cmd, args );
-		app::setLog(1,QString("[EXEC %1]: %2").arg( (res)?"true":"false" ).arg(str));
+		auto res = QProcess::startDetached( cmd, args, workPath );
+		app::setLog(1,QString("[EXEC %1]: %2 in %3").arg( (res)?"true":"false" ).arg(str).arg( workPath ));
 		return res;
 	}
 
