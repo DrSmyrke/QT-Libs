@@ -53,7 +53,7 @@ void Wget::get(QString url)
 		if( m_pSocket->isOpen() ) break;
 	}
 
-	if( m_pSocket->isOpen() ){
+	if( m_pSocket->isOpen() && m_pSocket->state() == QAbstractSocket::ConnectedState ){
 		QByteArray ba;
 		ba.append("GET " + path + " HTTP/1.1\r\nHost: " + addr + ":" + QString::number(port) + "\r\nConnection: close\r\nUser-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0\r\n\r\n");
 		m_pSocket->write(ba);
