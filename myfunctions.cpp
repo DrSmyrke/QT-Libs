@@ -14,7 +14,7 @@ namespace mf {
 	{
 		if( !QDir( path ).exists() ) return;
 		QDir dir = QDir( path );
-		for(auto elem:dir.entryList(QStringList() << "*",QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot)){
+		for( auto elem:dir.entryList( QStringList() << "*", QDir::Dirs | QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot ) ){
 			if( QDir( path + "/" + elem ).exists() ){
 				mf::removeDir( path + "/" + elem );
 				continue;
