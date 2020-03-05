@@ -24,6 +24,7 @@ namespace mf {
 	bool strFind(const QString &inStr, const QString &dataStr);
 	QByteArray toLittleEndianShort(const short val);
 	void XOR(QByteArray &data, const QByteArray &key);
+        int pidOfProc(const QString &procName);
 }
 
 #endif // MYFUNCTIONS_H

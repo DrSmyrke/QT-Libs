@@ -143,4 +143,34 @@ namespace mf {
 			data[i] = data[i] ^ key[ i % key.size() ];
 		}
 	}
+
+        int pidOfProc(const QString &procName)
+        {
+            int res = -1;
+
+            QDir dir = QDir( "/proc" );
+            for( auto elem:dir.entryList( QStringList() << "*", QDir::Dirs | QDir::NoDotAndDotDot ) ){
+                    bool test = false;
+                    int pid = elem.toInt( &test, 10 );
+                    if( !test ) continue;
+                    QString cmd = "";
+
+                    QFile file( QString( "/proc/%1/cmdline" ).arg( elem ) );
+                    if( file.open( QIODevice::ReadOnly ) ){
+                            cmd = file.read( 1024 );
+                            QStringList tmp = cmd.split( "/" );
+                            cmd = tmp.last();
+                            file.close();
+                    }
+
+                    if( cmd.isEmpty() || cmd != procName || pid == getpid() ){
+                            continue;
+                    }
+
+                   res = pid;
+                   break;
+            }
+
+            return res;
+        }
 }
