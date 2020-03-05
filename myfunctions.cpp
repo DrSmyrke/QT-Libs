@@ -7,6 +7,7 @@
 #include <QProcess>
 #include <QDateTime>
 #include <QFileInfo>
+#include <unistd.h>
 
 namespace mf {
 
