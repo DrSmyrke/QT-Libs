@@ -42,6 +42,9 @@ namespace myproto {
 		pkt.head.dataLength += static_cast<uint8_t>( data[16] )<<8;
 		pkt.head.dataLength += static_cast<uint8_t>( data[17] );
 
+		pkt.head.pktCounter = static_cast<uint8_t>( data[18] )<<8;
+		pkt.head.pktCounter += static_cast<uint8_t>( data[19] );
+
 		uint32_t totalSize = pkt.head.dataLength + pkt.headerSize + sizeof(pkt.crc);
 
 		if( data.size() < totalSize ){
@@ -75,6 +78,7 @@ namespace myproto {
 		ba.append( mf::toBigEndianInt( pkt.head.source ) );
 		ba.append( mf::toBigEndianInt( pkt.head.destination ) );
 		ba.append( mf::toBigEndianInt( pkt.rawData.size() ) );
+		ba.append( mf::toBigEndianShort( pkt.head.pktCounter );
 		ba.append( pkt.rawData );
 		ba.append( mf::toBigEndianShort( myproto::getCRC( ba ) ) );
 

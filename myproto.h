@@ -13,11 +13,12 @@
  * source					4 byte
  * destination				4 byte		if destination = 0xFFFFFFFF then this message from all
  * dataLength				4 byte
+ * pktCounter				2 byte
  * format/encrypt data		(dataLength) bytes
  * crc						4 byte
  * -------------------------------------------------------
- * total header				18 bytes
- * total packet				22 + (dataLength) bytes
+ * total header				20 bytes
+ * total packet				24 + (dataLength) bytes
 */
 
 
@@ -68,10 +69,11 @@ namespace myproto {
 			uint32_t source					= 0;
 			uint32_t destination			= 0;
 			uint32_t dataLength				= 0;
+			uint16_t pktCounter				= 0;
 		} head;
 		QByteArray rawData;
 		uint16_t crc						= 0;
-		uint8_t headerSize					= 18;
+		uint8_t headerSize					= 20;
 		std::list<myproto::PktData> pktData;
 		bool next							= false;
 		bool error							= false;
