@@ -78,7 +78,7 @@ namespace myproto {
 		ba.append( mf::toBigEndianInt( pkt.head.source ) );
 		ba.append( mf::toBigEndianInt( pkt.head.destination ) );
 		ba.append( mf::toBigEndianInt( pkt.rawData.size() ) );
-		ba.append( mf::toBigEndianShort( pkt.head.pktCounter );
+		ba.append( mf::toBigEndianShort( pkt.head.pktCounter ) );
 		ba.append( pkt.rawData );
 		ba.append( mf::toBigEndianShort( myproto::getCRC( ba ) ) );
 
