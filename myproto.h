@@ -40,6 +40,7 @@ namespace myproto {
 			state,
 			error,
 			bye,
+			proxy,
 		};
 	};
 	struct DataType{
@@ -54,6 +55,7 @@ namespace myproto {
 			buffSize,
 			boolean,
 			name,
+			voice,
 		};
 	};
 	struct PktData {
