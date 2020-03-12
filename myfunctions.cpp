@@ -77,6 +77,12 @@ namespace mf {
 		return QCryptographicHash::hash(string,QCryptographicHash::Md5).toHex();
 	}
 
+	QByteArray sha1(const QByteArray &string)
+	{
+		return QCryptographicHash::hash(string,QCryptographicHash::Sha1).toHex();
+	}
+
+
 	bool startDetached(const QString &cmd, const QStringList &args, const QString &workPath)
 	{
 		QString str = cmd + " " + args.join(" ");
@@ -145,33 +151,33 @@ namespace mf {
 		}
 	}
 
-        int pidOfProc(const QString &procName)
-        {
-            int res = -1;
+	int pidOfProc(const QString &procName)
+	{
+		int res = -1;
 
-            QDir dir = QDir( "/proc" );
-            for( auto elem:dir.entryList( QStringList() << "*", QDir::Dirs | QDir::NoDotAndDotDot ) ){
-                    bool test = false;
-                    int pid = elem.toInt( &test, 10 );
-                    if( !test ) continue;
-                    QString cmd = "";
+		QDir dir = QDir( "/proc" );
+		for( auto elem:dir.entryList( QStringList() << "*", QDir::Dirs | QDir::NoDotAndDotDot ) ){
+			bool test = false;
+			int pid = elem.toInt( &test, 10 );
+			if( !test ) continue;
+			QString cmd = "";
 
-                    QFile file( QString( "/proc/%1/cmdline" ).arg( elem ) );
-                    if( file.open( QIODevice::ReadOnly ) ){
-                            cmd = file.read( 1024 );
-                            QStringList tmp = cmd.split( "/" );
-                            cmd = tmp.last();
-                            file.close();
-                    }
+			QFile file( QString( "/proc/%1/cmdline" ).arg( elem ) );
+			if( file.open( QIODevice::ReadOnly ) ){
+				cmd = file.read( 1024 );
+				QStringList tmp = cmd.split( "/" );
+				cmd = tmp.last();
+				file.close();
+			}
 
-                    if( cmd.isEmpty() || cmd != procName || pid == getpid() ){
-                            continue;
-                    }
+			if( cmd.isEmpty() || cmd != procName || pid == getpid() ){
+				continue;
+			}
 
-                   res = pid;
-                   break;
-            }
+			res = pid;
+			break;
+		}
 
-            return res;
-        }
+		return res;
+	}
 }

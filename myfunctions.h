@@ -18,13 +18,14 @@ namespace mf {
 	 * @return
 	 */
 	QByteArray md5(const QByteArray &string);
+	QByteArray sha1(const QByteArray &string);
 	bool startDetached(const QString &cmd, const QStringList &args = QStringList(), const QString &workPath = QDir::homePath());
 	bool checkFile(const char *fileName);
 	bool checkFile(const QString &path);
 	bool strFind(const QString &inStr, const QString &dataStr);
 	QByteArray toLittleEndianShort(const short val);
 	void XOR(QByteArray &data, const QByteArray &key);
-        int pidOfProc(const QString &procName);
+	int pidOfProc(const QString &procName);
 }
 
 #endif // MYFUNCTIONS_H
