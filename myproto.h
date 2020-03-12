@@ -32,6 +32,7 @@ namespace myproto {
 	};
 	struct PktType{
 		enum{
+			ping,
 			hello,
 			hello2,
 			request,
