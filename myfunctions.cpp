@@ -27,23 +27,29 @@ namespace mf {
 
 	QString getSize(const uint32_t val)
 	{
-		QString str;
-		if(val < 1024) str = QString::number(val) + " b";
-		if(val >= 1024 && val < 1024000) str = QString::number((float)val/1024.0).left(5) + " Kb";
-		if(val >= 1024000 && val < 1024000000) str =  QString::number((float)val/1048576.0).left(5) + " Mb";
-		if(val >= 1048576000) str =  QString::number((float)val/1073741824.0).left(5) + " Gb";
-		return str;
+		QStringList postFixs = QStringList()<<"b"<<"Kb"<<"Mb"<<"Gb"<<"Tb";
+		float size = static_cast< float >( val );
+		uint8_t index = 0;
+		do{
+			size /= 1024.0;
+			index++;
+			if( index >= postFixs.size() ) break;
+		}while( size > 1023.0 );
+		return QString( "%1 %2" ).arg( size ).arg( postFixs[index] );
 	}
 
 #if __WORDSIZE == 64
 	QString getSize(const uint64_t val)
 	{
-		QString str;
-		if(val < 1024) str = QString::number(val) + " b";
-		if(val >= 1024 && val < 1024000) str = QString::number((float)val/1024.0).left(5) + " Kb";
-		if(val >= 1024000 && val < 1024000000) str =  QString::number((float)val/1048576.0).left(5) + " Mb";
-		if(val >= 1048576000) str =  QString::number((float)val/1073741824.0).left(5) + " Gb";
-		return str;
+		QStringList postFixs = QStringList()<<"b"<<"Kb"<<"Mb"<<"Gb"<<"Tb";
+		float size = static_cast< float >( val );
+		uint8_t index = 0;
+		do{
+			size /= 1024.0;
+			index++;
+			if( index >= postFixs.size() ) break;
+		}while( size > 1023.0 );
+		return QString( "%1 %2" ).arg( size ).arg( postFixs[index] );
 	}
 #endif
 
