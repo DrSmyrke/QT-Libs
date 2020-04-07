@@ -19,6 +19,8 @@ namespace mf {
 	 */
 	QByteArray md5(const QByteArray &string);
 	QByteArray sha1(const QByteArray &string);
+	QByteArray fileChecksum_MD5(const QString &file);
+	QByteArray fileChecksum_SHA1(const QString &file);
 	bool startDetached(const QString &cmd, const QStringList &args = QStringList(), const QString &workPath = QDir::homePath());
 	bool checkFile(const char *fileName);
 	bool checkFile(const QString &path);

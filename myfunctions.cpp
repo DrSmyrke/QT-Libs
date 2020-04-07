@@ -80,14 +80,37 @@ namespace mf {
 
 	QByteArray md5(const QByteArray &string)
 	{
-		return QCryptographicHash::hash(string,QCryptographicHash::Md5).toHex();
+		return QCryptographicHash::hash(string, QCryptographicHash::Md5).toHex();
 	}
 
 	QByteArray sha1(const QByteArray &string)
 	{
-		return QCryptographicHash::hash(string,QCryptographicHash::Sha1).toHex();
+		return QCryptographicHash::hash(string, QCryptographicHash::Sha1).toHex();
 	}
 
+	QByteArray fileChecksum_MD5(const QString &file)
+	{
+		QFile f(file);
+		if( f.open( QFile::ReadOnly ) ){
+			QCryptographicHash hash( QCryptographicHash::Md5 );
+			if (hash.addData(&f)) {
+				return hash.result().toHex();
+			}
+		}
+		return QByteArray();
+	}
+	
+	QByteArray fileChecksum_SHA1(const QString &file)
+	{
+		QFile f(file);
+		if( f.open( QFile::ReadOnly ) ){
+			QCryptographicHash hash( QCryptographicHash::Sha1 );
+			if (hash.addData(&f)) {
+				return hash.result().toHex();
+			}
+		}
+		return QByteArray();
+	}
 
 	bool startDetached(const QString &cmd, const QStringList &args, const QString &workPath)
 	{
