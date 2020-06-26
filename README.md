@@ -24,3 +24,38 @@ ui->widget->setImage( "../Horse.png" );
 ui->widget->setImage( "../1.png", 1 );
 
 ui->widget->update();
+
+
+
+
+
+
+### API
+
+#### Example
+
+API::Request request;
+
+request.url = "API_URL";
+
+request.method = API::Method::POST;
+
+request.dataType = API::DataType::JSON;
+
+request.dataList[ "key" ] = "";
+
+request.dataList[ "name" ] = "NAME";
+
+request.dataList[ "data" ] = "data";
+
+API::Response response = API::sendRequest( request );
+
+if( response.error ){
+
+	qDebug()<<response.code<<response.data<<response.errorString;
+	
+}else{
+
+	qDebug()<<response.code<<response.data;
+	
+}
