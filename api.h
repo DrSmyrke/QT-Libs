@@ -35,6 +35,7 @@ namespace API {
 	};
 
 	Response sendRequest(Request &request);
+	QByteArray packData(const std::map< QString, QVariant > &dataList);
 }
 
 #endif // API_H

@@ -100,5 +100,20 @@ namespace API {
 
 		return response;
 	}
+	
+	QByteArray packData(const std::map<QString, QVariant> &dataList)
+	{
+		QByteArray ba;
+		QJsonObject jsonObj;
+		QJsonDocument jsonDoc;
+
+		for( auto elem:dataList ){
+			jsonObj.insert( elem.first, elem.second.toString() );
+		}
+		jsonDoc.setObject( jsonObj );
+		ba = jsonDoc.toJson( QJsonDocument::Compact );
+
+		return ba;
+	}
 
 }
