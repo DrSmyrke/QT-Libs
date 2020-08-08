@@ -21,7 +21,7 @@ namespace http{
 				continue;
 			}
 			if( packet.head.firstLine && packet.isRequest && packet.head.request.target.isEmpty() && data[i] == ' ' ){
-				packet.head.request.target = miniBuff;
+				packet.head.request.target = miniBuff.replace( "%20", " " );
 				miniBuff.clear();
 				continue;
 			}
