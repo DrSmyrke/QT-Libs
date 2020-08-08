@@ -1,5 +1,4 @@
 #include "myfunctions.h"
-#include "global.h"
 
 #include <QDataStream>
 #include <QIODevice>
@@ -116,7 +115,6 @@ namespace mf {
 	{
 		QString str = cmd + " " + args.join(" ");
 		auto res = QProcess::startDetached( cmd, args, workPath );
-		app::setLog(1,QString("[EXEC %1]: %2 in %3").arg( (res)?"true":"false" ).arg(str).arg( workPath ));
 		return res;
 	}
 
