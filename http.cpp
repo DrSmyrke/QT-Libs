@@ -68,6 +68,7 @@ namespace http{
 				if(param.contains("accept-language",Qt::CaseInsensitive)) packet.head.acceptLanguage = miniBuff;
 				if(param.contains("proxy-authenticate",Qt::CaseInsensitive)) packet.head.proxyAuthenticate = miniBuff;
 				if(param.contains("proxy-authorization",Qt::CaseInsensitive)) packet.head.proxyAuthorization = miniBuff;
+				if(param.contains("authorization",Qt::CaseInsensitive)) packet.head.Authorization = miniBuff;
 				miniBuff.clear();
 				param = "\n";
 				continue;
@@ -98,6 +99,7 @@ namespace http{
 		if( !pkt.head.accept.isEmpty() ) ba.append( "Accept: " + pkt.head.accept + "\r\n" );
 		if( !pkt.head.proxyAuthenticate.isEmpty() ) ba.append( "Proxy-Authenticate: " + pkt.head.proxyAuthenticate + "\r\n" );
 		if( !pkt.head.proxyAuthorization.isEmpty() ) ba.append( "Proxy-Authorization: " + pkt.head.proxyAuthorization + "\r\n" );
+		if( !pkt.head.Authorization.isEmpty() ) ba.append( "Authorization: " + pkt.head.Authorization + "\r\n" );
 
 		if( !pkt.head.cookie.isEmpty() ) ba.append( "Cookie: " + pkt.head.cookie + "\r\n" );
 		if( !pkt.head.userAgent.isEmpty() ) ba.append( "User-Agent: " + pkt.head.userAgent + "\r\n" );
