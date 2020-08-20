@@ -36,6 +36,7 @@ namespace http{
 		QString opaque;
 		QByteArray BasicString;
 		QString qop;
+		bool valid = false;
 	};
 
 	struct pkt{
@@ -86,6 +87,7 @@ namespace http{
 	QByteArray buildPkt(http::pkt &pkt);
 	AuthData parsAuthString(const QByteArray &data);
 	void parsArguments(const QString &string, QMap< QByteArray, QByteArray > &args);
+	void parsBasicAuth(const http::pkt &pkt, QString &login, QString &password);
 };
 
 #endif // HTTP_H

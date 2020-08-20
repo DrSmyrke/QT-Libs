@@ -170,6 +170,8 @@ namespace http{
 
 		if( authData.method == http::AuthMethod::Basic && miniBuff.size() > 0 ) authData.BasicString = miniBuff;
 
+		authData.valid = true;
+
 		return authData;
 	}
 
@@ -217,4 +219,24 @@ namespace http{
 		}
 	}
 
+	void parsBasicAuth(const pkt &pkt, QString &login, QString &password)
+	{
+		if( pkt.head.proxyAuthorization.isEmpty() && pkt.head.Authorization.isEmpty() ) return;
+
+		http::AuthData auth;
+
+		if( !pkt.head.proxyAuthorization.isEmpty() ) auth = http::parsAuthString( pkt.head.proxyAuthorization.toUtf8() );
+		if( !pkt.head.Authorization.isEmpty() && !auth.valid ) auth = http::parsAuthString( pkt.head.Authorization.toUtf8() );
+
+		if( auth.method == http::AuthMethod::Basic && auth.valid ){
+			QByteArray decodeStr = QByteArray::fromBase64( auth.BasicString );
+			auto tmp = decodeStr.split(':');
+			if( tmp.size() != 2 ) return;
+			login		= tmp[0];
+			password	= tmp[1];
+			return;
+		}
+
+
+	}
 };
