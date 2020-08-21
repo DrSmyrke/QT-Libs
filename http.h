@@ -23,6 +23,18 @@ namespace http{
 		};
 	};
 
+	struct AnswerCode{
+		enum{
+			OK									= 200,
+			Bad_request							= 400,
+			Unauthorized,
+			Payment_Required,
+			Forbidden,
+			Not_found,
+			Proxy_Authentication_Required		= 407,
+		};
+	};
+
 	struct AuthData{
 		uint8_t method =  http::AuthMethod::Unknown;
 		QString methodString;
