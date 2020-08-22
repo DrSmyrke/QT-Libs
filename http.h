@@ -79,6 +79,7 @@ namespace http{
 			QString acceptLanguage;
 			QString proxyAuthenticate;
 			QString proxyAuthorization;
+			QString WWWAuthenticate;
 			QString Authorization;
 			bool valid = false;
 			bool flag = true;
