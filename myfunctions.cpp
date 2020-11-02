@@ -74,6 +74,7 @@ namespace mf {
 
 	unsigned int getRand(const int max)
 	{
+		//include to main function "qsrand( QTime::currentTime().msecsSinceStartOfDay() );"
 		return qrand() % max;
 	}
 
@@ -98,7 +99,7 @@ namespace mf {
 		}
 		return QByteArray();
 	}
-	
+
 	QByteArray fileChecksum_SHA1(const QString &file)
 	{
 		QFile f(file);
