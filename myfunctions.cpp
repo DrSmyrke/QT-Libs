@@ -29,11 +29,11 @@ namespace mf {
 		QStringList postFixs = QStringList()<<"b"<<"Kb"<<"Mb"<<"Gb"<<"Tb";
 		float size = static_cast< float >( val );
 		uint8_t index = 0;
-		do{
+		while( size > 1023.0 ){
 			size /= 1024.0;
 			index++;
 			if( index >= postFixs.size() ) break;
-		}while( size > 1023.0 );
+		};
 		return QString( "%1 %2" ).arg( size ).arg( postFixs[index] );
 	}
 
@@ -43,11 +43,11 @@ namespace mf {
 		QStringList postFixs = QStringList()<<"b"<<"Kb"<<"Mb"<<"Gb"<<"Tb";
 		float size = static_cast< float >( val );
 		uint8_t index = 0;
-		do{
+		while( size > 1023.0 ){
 			size /= 1024.0;
 			index++;
 			if( index >= postFixs.size() ) break;
-		}while( size > 1023.0 );
+		};
 		return QString( "%1 %2" ).arg( size ).arg( postFixs[index] );
 	}
 #endif
