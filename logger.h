@@ -4,7 +4,7 @@
 #include <QDir>
 
 struct LoggerConfig{
-	bool verbose			= true;
+	bool verbose			= false
 	uint8_t logLevel		= 3;
 #ifdef __linux__
 	QString logFile			= "/var/log/app";
